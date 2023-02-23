@@ -24,14 +24,33 @@ public class ItemCollect : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
         if (itemCollider && Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Space bar and item collected");
             Item item = itemCollider.gameObject.GetComponent<Item>();
             AddToInventory(item);
-            ItemCollected?.Invoke(item.typeOfVeggie);
             PrintInventory();
+
+            CmdItemCollected(item.typeOfVeggie);
         }
+    }
+
+    [Command]
+    void CmdItemCollected(Item.VegetableType itemType)
+    {
+        Debug.Log("CommandItemCollect: " + itemType);
+        RpcItemCollected(itemType);
+    }
+
+    [ClientRpc]
+    void RpcItemCollected(Item.VegetableType itemType)
+    {
+        ItemCollected?.Invoke(itemType);
     }
 
     private void AddToInventory(Item item)
