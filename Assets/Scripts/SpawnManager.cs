@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
-public class SpawnManager : Mirror.NetworkBehaviour
+public class SpawnManager : NetworkBehaviour
 {
     public GameObject[] lilyPadObjs = null;
     // Start is called before the first frame update
